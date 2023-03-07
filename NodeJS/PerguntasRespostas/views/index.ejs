@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Index</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <h1>Index</h1>
+    <hr />
+    <p>Nome: <%= nome %></p>
+    <p>Empresa: <%= empresa %></p>
+    <br />
+    <p>Linguagem Favorita: <%= lang %></p>
+    <p>Inscritos: <%= inscritos %></p>
+
+    <% if(msg == true){ %>
+    <h3>Isso e uma msg de error!</h3>
+    <% } else { %>
+    <h3>Nenhum error</h3>
+    <% } %> 
+    <% produtos.forEach(function(produto) { %>
+         <h4><%= produto.nome %></h4>
+         <%= produto.preco %>
+         <hr> 
+         <% }) %>
+  </body>
+</html>
