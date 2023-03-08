@@ -3,7 +3,7 @@ function enviarEmail(corpo, para) {
     setTimeout(function () {
       var deuErro = true;
       if (!deuErro) {
-        resolve({ time: 2, to: para, enviado: 'foi enviado'});// so pode ter um parametro
+        resolve({ time: 2, to: para, enviado: 'foi enviado'});// so pode ter um parâmetro
       } else {
         reject('Não foi possível enviar o email');
       }
@@ -12,9 +12,9 @@ function enviarEmail(corpo, para) {
 }
 
 enviarEmail('Olá, tudo bem?', 'pessoa@email.com').then((dados) => { 
-// Outra maneira de usar seria troca a variavel dados por Desestruturação
+// Outra maneira de usar seria troca a variável dados por Desestruturação
 // Ex: .then(({time, to, enviado}) e usar direto no console.log(`${time}`)
-    console.log('Pomise resolvida'+`
+    console.log('Promise resolvida'+`
     Time: ${dados.time}
     To: ${dados.to}
     Enviado: ${dados.enviado}
