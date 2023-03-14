@@ -2,10 +2,37 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
+const JWTSecret = "SenhaMuitoSecretaQueDeveriaSerArmazenadaEmUmArquivoDeConfiguracaoNaoComitadoNoGit";
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+function auth(req, res, next){
+
+    const authToken = req.headers['authorization'];
+    if(authToken != undefined){
+        
+        const bearer = authToken.split(' ');
+        var token = bearer[1];
+
+        jwt.verify(token, JWTSecret, (err, data) => {
+            if(err){
+                res.status(401);
+                res.json({err: "Token inválido"});
+            } else{
+                req.token = token;
+                req.loggedUser = {id: data.id, email: data.email};
+                next();
+            }
+        });
+    } else{
+        res.status(401);
+        res.json({err: "Token inválido"});
+    }
+}
 
 var BD = {
     games: [
@@ -27,14 +54,29 @@ var BD = {
             year: 2012,
             price: 20
         }
-    ]
+    ],
+    users: [
+        {
+            id: 1,
+            name: "Ang",
+            email: "ang_avatar@gmail.com",
+            password: "deveriaSerHash"
+        },
+        {
+            id: 2,
+            name: "Bang",
+            email: "skt_1_adc@gmail.com",
+            password: "E_UmHash"
+        }
+
+        ]
 }
-app.get("/",(req, res) => {
+app.get("/games", auth, (req, res) => {
     res.statusCode = 200;
     res.json(DB.games);
 });
 
-app.get("/game/:id", (req, res) => {
+app.get("/game/:id",auth, (req, res) => {
     if(isNaN(req.params.id)){
         res.sendStatus(400);
     }else{
@@ -49,7 +91,7 @@ app.get("/game/:id", (req, res) => {
     }
 });
 
-app.post("/game", (req, res) => {
+app.post("/game",auth, (req, res) => {
     var {title, price, year} = req.body;
    // VALIDAR OS DADOS
     DB.games.push({
@@ -100,6 +142,38 @@ app.put("/game/:id", (req, res) => {
         }
     }
 });
+
+app.post("/auth", (req, res) => {
+    var {email, password} = req.body;
+    if(email != undefined){
+    var user = DB.users.find(u => u.email == email);
+    if(user != undefined){
+        if(user.password == password){
+
+            jwt.sign({id: user.id, email: user.email}, JWTSecret, {expiresIn: '48h'}, (err, token) => { //payload, secret, options, callback
+            if(err){
+                res.status(400);
+                res.json({err: "Falha interna"});
+            }else{
+                res.sendStatus(200);
+                res.json({token: token});
+            }
+        });
+        }else{
+            res.sendStatus(401);
+            res.json({err: "Senha incorreta"});
+        }
+    } else{
+        res.sendStatus(404);
+        res.json({err: "O email não existe"});
+    }
+    }else{
+        res.sendStatus(400);
+        res.json({err: "O email é inválido"});
+    }
+
+});
+
 app.listen(3000, () => {
     console.log('Server rodando na porta 3000');
 });
