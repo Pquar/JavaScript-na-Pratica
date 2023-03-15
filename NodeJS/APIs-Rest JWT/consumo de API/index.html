@@ -7,6 +7,9 @@
     <title>Loja de Games</title>
 </head>
 <body>
+    <input type="text" name="email" id="email" placeholder="Seu E-mail"> <br>
+    <input type="password" name="password" id="password" placeholder="Sua Senha">
+    <button onclick="login()">Logar</button>
     <hr>
     <h4>Loja de Games</h4>
     <ul id="games"> </ul>
@@ -26,6 +29,31 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 <script>
+    function login(){
+        var emailField = document.getElementById("email");
+        var passwordField = document.getElementById("password");
+
+        var email = email.value
+        var password = password.value
+
+        axios.post("http://localhost:3000/auth",{
+            email,
+            password
+        }).then(res =>{ 
+            var token = res.data.token;
+            localStorage.setItem("token", token)
+            axiosConfig.headers.Authorization = "Bearer" + localStorage.getItem("token");
+            alert("Logado!");
+        }).catch(err =>{
+            alert("login invalido");
+        })
+    }
+    var axiosConfig = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     function createGame() {
         var titleInput = document.getElementById('title');
         var yearInput = document.getElementById('year');
@@ -37,7 +65,7 @@
             price: priceInput.value
         }
 
-        axios.post('http://localhost:3000/game', game)
+        axios.post('http://localhost:3000/game', game, axiosConfig)
         .then(response => {
             if(response.status == 200) {
                 alert('Game criado com sucesso!');
@@ -50,7 +78,7 @@
 
     function deleteGame(listItem){
         var id = listItem.getAttribute('data-id');
-        axios.delete('http://localhost:3000/game/' + id)
+        axios.delete('http://localhost:3000/game/' + id, axiosConfig)
         .then(response => {
             //if(response.status == 200) {
                 alert('Game deletado com sucesso!');
@@ -87,7 +115,7 @@
 
         var id = idInput.value;
 
-        axios.put('http://localhost:3000/game/' + id, game)
+        axios.put('http://localhost:3000/game/' + id, game, axiosConfig)
         .then(response => {
             if(response.status == 200) {
                 alert('Game atualizado com sucesso!');
@@ -98,7 +126,7 @@
         })
     }
 
-    axios.get('http://localhost:3000/games')
+    axios.get('http://localhost:3000/games', axiosConfig)
     .then(resquest => {
         var games = request.data;
         
