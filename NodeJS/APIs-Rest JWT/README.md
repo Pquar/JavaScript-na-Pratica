@@ -40,15 +40,21 @@ Esse endpoint e responsavel por realizar o login do usuario.
 email: E-maiil do usuario cadastrado no sistema.
 
 password: Senha cadastrada no sistema, referente ao email cadastrado 
-Exemplo:
+Exemplo de envio de parametros:
+```
+    {
+        "email": "email@email.com.br",
+        "password": "SuaSenha"
+    }
+```
+#### Respostas
+##### OK! 200
+Caso essa resposta aconteça voce ira receber o token jwt para acessar endpoints projetegidos na API.
 ```
     {
         "token": "jsddjidsfjiihdsfieiihi3324uh9f979fgg91g9g11y971778tv&*V7t87878tvt0"
     }
 ```
-#### Respostas
-##### OK!200
-Caso essa resposta aconteça voce recebara a listagem de todos os games
 
 ##### Falha na autenticação! 401
 Caso aconteça este erro, significa que aconteceu alguma falha durante o processo de autenticação de requisição.
