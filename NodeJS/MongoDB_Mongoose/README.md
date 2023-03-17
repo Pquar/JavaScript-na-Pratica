@@ -11,9 +11,25 @@ MongoDB armazena dados como documentos JSON, que são semelhantes a objetos Java
 CAP Theorem:
 - Consistency: Todos os nós(bancos) devem ter a mesma informação ao mesmo tempo.
 - Availability: Todos os nós(bancos) devem estar disponíveis ou retorna alguma resposta.
-- Partition-Tolerance: O sistema deve continuar funcionando mesmo que haja falhas e gaantir que os dados sejam salvos, mesmo com falhas na "rede".
+- Partition-Tolerance: O sistema deve continuar funcionando mesmo que haja falhas consiga garantir que os dados sejam salvos, mesmo com falhas na "rede".
 
 Exemplos:
-MongoDB: Consitência e Partition-Tolerance
+MongoDB: Consistência e Partition-Tolerance
 MySQL: Consistência e Availability
 Cassandra: Availability e Partition-Tolerance
+
+# Configurando mongoDB
+
+instalar o mongoDB
+Entrar na variável de ambiente do sistema e adicionar o caminho do mongoDB no PATH
+ex:  C:\Program Files\MongoDB\Server\4.2\bin 
+
+- ``` mongod  ```abre o servidor do mongoDB
+- ``` mongo ```abre o cliente do mongoDB 
+
+# Funções do mongoose
+| Função | Descrição |
+| --- | --- |
+| find  | Retorna todos documentos que possuem os parâmetros passados |
+| findOne  | Retorna o primeiro documento que possuem os parâmetros passados |
+| findByIdAndDelete | Deleta o documento que possuem o id passado |
