@@ -82,8 +82,8 @@ class AppointmentService {
       host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: "97997a8b5c05ee",
-        pass: "ad533b606c7f87"
+        user: "Usuariosmtpmailtrap",
+        pass: "SenhaSmtpmailtrap"
       }
     });
 
