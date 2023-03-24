@@ -1,0 +1,2 @@
+# Sistema de Compartilhamento de imagens com TDD e MongoDB
+Projeto desenvolvido com sistema de login(cadastro e login com JWT), sistema de imagens com upload de imagens e deletar imagens de um usuário.
